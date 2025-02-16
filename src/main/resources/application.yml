@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: ChatService
+
+server:
+  port: 8080
+
+---
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://chatting-mysql:3306/chatting_db?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: root
+    password: dnduf4594
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update  # 기존 데이터 유지 (필요에 따라 create, update, none 중 선택)
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+        dialect.storage_engine: innodb
+
+---
+
+spring:
+  kafka:
+    bootstrap-servers: kafka:9092
+
+    consumer:
+      group-id: consumer_group01
+      auto-offset-reset: earliest
+
+topic:
+  name: chatting  # Kafka 토픽 이름 Docker Compose와 일치시킴
