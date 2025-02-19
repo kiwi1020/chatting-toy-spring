@@ -22,7 +22,8 @@ public class KafkaConsumerConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServer;
-
+    @Value("${spring.kafka.consumer.group-id}")
+    private String consumerGroupId;
     @Bean
     public ConsumerFactory<String, ChatDto> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(
@@ -35,7 +36,7 @@ public class KafkaConsumerConfig {
     private Map<String, Object> consumerConfigurations() {
         Map<String, Object> configurations = new HashMap<>();
         configurations.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
-        configurations.put(ConsumerConfig.GROUP_ID_CONFIG, "my-consumer-group");
+        configurations.put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroupId);
         configurations.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         configurations.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         configurations.put(JsonDeserializer.TRUSTED_PACKAGES,"*");

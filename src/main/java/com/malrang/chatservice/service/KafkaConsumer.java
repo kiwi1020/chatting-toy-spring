@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class KafkaConsumer {
 
     private final SimpMessagingTemplate template;
-    @KafkaListener(groupId = "my-consumer-group" ,topics="chatting")
+    @KafkaListener(topics="chatting")
     public void listenChat(ChatDto chatDto){
         log.info("Received message: {}", chatDto);
 

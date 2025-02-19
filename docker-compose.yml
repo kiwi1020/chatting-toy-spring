@@ -30,7 +30,9 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
     depends_on:
-      - spring
+      - spring-a
+      - spring-b
+      - spring-c
 
   # MySQL 데이터베이스 서비스 설정
   chatting-mysql:
@@ -38,11 +40,10 @@ services:
     container_name: "chatting-mysql"
     ports:
       - "3306:3306"
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
-      MYSQL_ROOT_PASSWORD: dnduf4594
+      MYSQL_ROOT_PASSWORD: 1248
       MYSQL_DATABASE: chatting_db
-      MYSQL_CHARSET: utf8mb4
-      MYSQL_COLLATION: utf8mb4_unicode_ci
 
   # Observability 설정
   grafana:
@@ -65,12 +66,32 @@ services:
       - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 
 
-  # Spring Boot 애플리케이션 설정
-  spring:
+  # Spring Boot 애플리케이션 서버 A 설정
+  spring-a:
     build: .
-    container_name: chatting
+    container_name: spring-a
     ports:
-      - "8080:8080"
+      - "8081:8080"
+    depends_on:
+      - chatting-mysql
+      - kafka
+
+  # Spring Boot 애플리케이션 서버 B 설정
+  spring-b:
+    build: .
+    container_name: spring-b
+    ports:
+      - "8082:8080"
+    depends_on:
+      - chatting-mysql
+      - kafka
+
+  # Spring Boot 애플리케이션 서버 C 설정
+  spring-c:
+    build: .
+    container_name: spring-c
+    ports:
+      - "8083:8080"
     depends_on:
       - chatting-mysql
       - kafka

@@ -10,9 +10,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://chatting-mysql:3306/chatting_db?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://chatting-mysql:3306/chatting_db?useSSL=false&useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
     username: root
-    password: dnduf4594
+    password: 1248
 
   jpa:
     show-sql: false
@@ -31,7 +31,7 @@ spring:
     bootstrap-servers: kafka:9092
 
     consumer:
-      group-id: consumer_group01
+      group-id: ${KAFKA_CONSUMER_GROUP:chat-server-${random.value}}"
       auto-offset-reset: earliest
 
 topic:
