@@ -10,7 +10,7 @@ public class ChatServiceApplication {
     private static final Logger logger = LoggerFactory.getLogger(ChatServiceApplication.class);
     public static void main(String[] args) {
         SpringApplication.run(ChatServiceApplication.class, args);
-        logger.info("Application has started.");
+        logger.info("Application has started V2.");
     }
 
 }

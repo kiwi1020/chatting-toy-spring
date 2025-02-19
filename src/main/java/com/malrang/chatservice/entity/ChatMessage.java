@@ -15,7 +15,7 @@ public class ChatMessage {
     private Long id;
     private String message;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "chatRoom_id")
     private ChatRoom chatRoom;
 

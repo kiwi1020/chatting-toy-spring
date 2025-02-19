@@ -6,6 +6,7 @@ import com.malrang.chatservice.repository.ChatMessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 public class ChatService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomService chatRoomService;
+
+    @Transactional
     public ChatDto saveChatMessage(ChatDto chatDto) {
         ChatMessage chatMessage = ChatMessage.builder()
                 .message(chatDto.getMessage())

@@ -41,8 +41,29 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: dnduf4594
       MYSQL_DATABASE: chatting_db
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+
+  # Observability 설정
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    user: "$UID:$GID"
+    ports:
+      - "3000:3000"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+
+  prometheus:
+    image: quay.io/prometheus/prometheus:v2.52.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
 
   # Spring Boot 애플리케이션 설정
   spring:
@@ -59,6 +80,3 @@ networks:
   chatting-network:
     driver: bridge
 
-# 데이터베이스 데이터를 위한 볼륨 설정
-volumes:
-  mysql_data:
