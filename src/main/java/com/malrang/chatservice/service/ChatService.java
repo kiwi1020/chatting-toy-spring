@@ -17,12 +17,17 @@ public class ChatService {
 
     @Transactional
     public ChatDto saveChatMessage(ChatDto chatDto) {
-        ChatMessage chatMessage = ChatMessage.builder()
-                .message(chatDto.getMessage())
-                .chatRoom(chatRoomService.findByRoomId(chatDto.getRoomId()))
-                .build();
-        chatMessageRepository.save(chatMessage);
+        try {
+            ChatMessage chatMessage = ChatMessage.builder()
+                    .message(chatDto.getMessage())
+                    .chatRoom(chatRoomService.findByRoomId(chatDto.getRoomId()))
+                    .build();
+            chatMessageRepository.save(chatMessage);
+            return chatDto;
 
-        return chatDto;
+        } catch (Exception e) {
+            log.error("Error occurred while saving chat message for roomId: {}", chatDto.getRoomId(), e);
+            return null;
+        }
     }
 }

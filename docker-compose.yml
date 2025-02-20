@@ -40,10 +40,11 @@ services:
     container_name: "chatting-mysql"
     ports:
       - "3306:3306"
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
       MYSQL_ROOT_PASSWORD: 1248
       MYSQL_DATABASE: chatting_db
+    volumes:
+      - mysql_data:/var/lib/mysql
 
   # Observability 설정
   grafana:
@@ -72,6 +73,7 @@ services:
     container_name: spring-a
     ports:
       - "8081:8080"
+    restart: always
     depends_on:
       - chatting-mysql
       - kafka
@@ -82,6 +84,7 @@ services:
     container_name: spring-b
     ports:
       - "8082:8080"
+    restart: always
     depends_on:
       - chatting-mysql
       - kafka
@@ -92,6 +95,7 @@ services:
     container_name: spring-c
     ports:
       - "8083:8080"
+    restart: always
     depends_on:
       - chatting-mysql
       - kafka
@@ -101,3 +105,7 @@ networks:
   chatting-network:
     driver: bridge
 
+# 볼륨 설정
+volumes:
+  mysql_data:
+    driver: local
